@@ -1,0 +1,79 @@
+<div>
+  <h1>Characters</h1>
+  <button (click)="updateFilter('none')" type="button">All Characters</button>
+  <p>
+    <input (keyup.enter)="updateFilter('name')" [(ngModel)]="temporaryName" placeholder="Characters by name">
+    <button (click)="updateFilter('name')" type="button">Search</button>
+  </p>
+  <p>House:
+    <select [(ngModel)]="temporaryFilters['house']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="Gryffindor">Gryffindor</option>
+      <option value="Ravenclaw">Ravenclaw</option>
+      <option value="Slytherin">Slytherin</option>
+      <option value="Hufflepuff">Hufflepuff</option>
+    </select>
+  </p>
+  <p>Blood Status:
+    <select [(ngModel)]="temporaryFilters['bloodStatus']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="pure-blood">Pure-blood</option>
+      <option value="half-blood">Half-blood</option>
+      <option value="muggle-born">Muggle-born</option>
+      <option value="unknown">Unknown</option>
+    </select>
+  </p>
+  <p>Death Eater:
+    <select [(ngModel)]="temporaryFilters['deathEater']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </p>
+  <p>Dumbledore's Army:
+    <select [(ngModel)]="temporaryFilters['dumbledoresArmy']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </p>
+  <p>Order of the Phoenix:
+    <select [(ngModel)]="temporaryFilters['orderOfThePhoenix']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </p>
+  <p>Ministry of Magic:
+    <select [(ngModel)]="temporaryFilters['ministryOfMagic']">
+      <option value="Ignore" selected>Ignore</option>
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </p>
+  <button (click)="updateFilter('custom')" type="button">Custom search</button>
+  <ul>
+    <li *ngFor="let character of applyFilter()">
+      <a href="characters/{{character._id}}">{{character.name}}</a>
+      <button *ngIf="!checkCharacter(character._id)" (click)="addCharacter(character._id)" type="button">Add to favourites</button>
+      <button *ngIf="checkCharacter(character._id)" (click)="removeCharacter(character._id)" type="button">Remove from favourites</button>
+      <ul>
+        <li *ngIf="check(character.house)">House: <a [routerLink]="['/houses', house(character.house)]">{{character.house}}</a></li>
+        <li *ngIf="check(character.patronus)">Patronus: {{character.patronus}}</li>
+        <li *ngIf="check(character.species)">Species: {{character.species}}</li>
+        <li *ngIf="check(character.bloodStatus)">Blood Status: {{character.bloodStatus}}</li>
+        <li *ngIf="check(character.role)">Role: {{character.role}}</li>
+        <li *ngIf="check(character.school)">School: {{character.school}}</li>
+        <li *ngIf="check(character.deathEater)">Death Eater: {{character.deathEater}}</li>
+        <li *ngIf="check(character.dumbledoresArmy)">Dumbledore's Army: {{character.dumbledoresArmy}}</li>
+        <li *ngIf="check(character.orderOfThePhoenix)">Order of the Phoenix: {{character.orderOfThePhoenix}}</li>
+        <li *ngIf="check(character.ministryOfMagic)">Ministry of Magic: {{character.ministryOfMagic}}</li>
+        <li *ngIf="check(character.alias)">Alias: {{character.alias}}</li>
+        <li *ngIf="check(character.wand)">Wand: {{character.wand}}</li>
+        <li *ngIf="check(character.boggart)">Boggart: {{character.boggart}}</li>
+        <li *ngIf="check(character.animagus)">Animagus: {{character.animagus}}</li>
+      </ul>
+    </li>
+  </ul>
+  <h1 *ngIf="filtered.length == 0">No characters were found!</h1>
+</div>

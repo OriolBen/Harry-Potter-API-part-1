@@ -1,0 +1,30 @@
+<div>
+  <h1>Spells</h1>
+  <button (click)="updateFilter('none')" type="button">All spells</button>
+  <p>
+    <select (change)="updateFilter('type')" [(ngModel)]="option">
+      <option value="" disabled selected>Spells by type</option>
+      <option value="Charm">Charm</option>
+      <option value="Curse">Curse</option>
+      <option value="Enchantment">Enchantment</option>
+      <option value="Hex">Hex</option>
+      <option value="Jinx">Jinx</option>
+      <option value="Spell">Spell</option>
+    </select>
+  </p>
+  <p>
+    <input (keyup.enter)="updateFilter('name')" [(ngModel)]="temporaryName" placeholder="Spells by name">
+    <button (click)="updateFilter('name')" type="button">Search</button>
+  </p>
+  <ul>
+    <li *ngFor="let spell of applyFilter()">{{spell.spell}}
+      <button *ngIf="!checkSpell(spell._id)" (click)="addSpell(spell._id)" type="button">Add to favourites</button>
+      <button *ngIf="checkSpell(spell._id)" (click)="removeSpell(spell._id)" type="button">Remove from favourites</button>
+      <ul>
+        <li>Type: {{spell.type}}</li>
+        <li>Effect: {{spell.effect}}</li>
+      </ul>
+    </li>
+  </ul>
+  <h1 *ngIf="filtered.length == 0">No spells were found!</h1>
+</div>
